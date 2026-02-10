@@ -11,6 +11,7 @@ public class Sniper_Controller : MonoBehaviour
     [SerializeField] private GameObject ScopeOverlay;
     private bool Shell_In_Chamber = true;
     private Animator _Animator;
+    private GameObject cam;
 
     [Header("Bullet Variables")]
     [SerializeField] private GameObject Bullet;
@@ -19,6 +20,7 @@ public class Sniper_Controller : MonoBehaviour
     void Start()
     {
         _Animator = GetComponent<Animator>();
+        cam = Camera.main.gameObject;
     }
 
     // Update is called once per frame
@@ -68,7 +70,8 @@ public class Sniper_Controller : MonoBehaviour
                     SniperBody.transform.GetChild(i).gameObject.SetActive(false);
                 }
                 ScopeOverlay.SetActive(true);
-                Camera.main.fieldOfView = 0.5f;
+                Camera.main.fieldOfView = 2f;
+                cam.GetComponent<Camera_Controller>().ChangeSpeed(true);
             }
         }
         else
@@ -81,6 +84,7 @@ public class Sniper_Controller : MonoBehaviour
                 }
                 ScopeOverlay.SetActive(false);
                 Camera.main.fieldOfView = 35;
+                cam.GetComponent<Camera_Controller>().ChangeSpeed(false);
             }
         }
 

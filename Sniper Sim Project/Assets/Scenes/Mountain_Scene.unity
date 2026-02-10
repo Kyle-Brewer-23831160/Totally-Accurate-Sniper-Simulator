@@ -1403,6 +1403,38 @@ Terrain:
   m_EnableHeightmapRayTracing: 1
   m_EnableTreesAndDetailsRayTracing: 0
   m_TreeMotionVectorModeOverride: 3
+--- !u!1 &909067753
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 909067754}
+  m_Layer: 0
+  m_Name: PlayerParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &909067754
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 909067753}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -104.808136, y: 413.27127, z: -496.9444}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2130710646}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &944561760
 GameObject:
   m_ObjectHideFlags: 0
@@ -2850,6 +2882,7 @@ GameObject:
   - component: {fileID: 2130710646}
   - component: {fileID: 2130710645}
   - component: {fileID: 2130710647}
+  - component: {fileID: 2130710648}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2916,14 +2949,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2130710643}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.120882556, y: 0.1261162, z: -0.01547667, w: 0.9845012}
-  m_LocalPosition: {x: -95.87, y: 416.3, z: -513.3}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 426749809}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 14, y: -705.4, z: 0.001}
+  m_Father: {fileID: 909067754}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2130710647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2968,6 +3001,24 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &2130710648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130710643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02c7aca1a86b0684a869d9442feab030, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RotY: 0
+  LookSpeed: 10
+  ScopeSpeed: 1
+  MaxXlimit: 90
+  MinXlimit: -90
+  PlayerParent: {fileID: 909067753}
 --- !u!1 &2137841843
 GameObject:
   m_ObjectHideFlags: 0
@@ -3065,7 +3116,7 @@ Terrain:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 2130710646}
+  - {fileID: 909067754}
   - {fileID: 1889588239}
   - {fileID: 299400021}
   - {fileID: 797091072}
