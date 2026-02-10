@@ -6,6 +6,7 @@ public class Sniper_Controller : MonoBehaviour
     [Header("Sniper Variables")]
     [SerializeField] private int Mag_Ammo;
     [SerializeField] private GameObject ShotPoint;
+    [SerializeField] private float Speed;
     private bool Shell_In_Chamber = true;
 
     [Header("Bullet Variables")]
@@ -22,6 +23,7 @@ public class Sniper_Controller : MonoBehaviour
     {
         Fire();
         Reload();
+        ScopeAnimController();
     }
 
     private void Fire()
@@ -49,6 +51,20 @@ public class Sniper_Controller : MonoBehaviour
             {
                 //logic to swap magazine
             }
+        }
+    }
+
+    private void ScopeAnimController()
+    {
+        if (Input.GetMouseButton(1))
+        {
+            if (GetComponent<Animator>().GetFloat("Blend") >= 1) return;
+            GetComponent<Animator>().SetFloat("Blend", GetComponent<Animator>().GetFloat("Blend") + Speed);
+        }
+        else
+        {
+            if (GetComponent<Animator>().GetFloat("Blend") <= 0) return;
+            GetComponent<Animator>().SetFloat("Blend", GetComponent<Animator>().GetFloat("Blend") - Speed);
         }
     }
 }
