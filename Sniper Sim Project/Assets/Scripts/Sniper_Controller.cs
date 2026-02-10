@@ -12,6 +12,10 @@ public class Sniper_Controller : MonoBehaviour
     private bool Shell_In_Chamber = true;
     private Animator _Animator;
     private GameObject cam;
+    private Vector3 Start_Pos;
+    private Vector3 Scope_Pos = new Vector3(0.517f, -0.235f, 0);
+    private Quaternion Start_Rot;
+    private Quaternion Scope_Rot = new Quaternion(0,0,0,0);
 
     [Header("Bullet Variables")]
     [SerializeField] private GameObject Bullet;
@@ -21,6 +25,8 @@ public class Sniper_Controller : MonoBehaviour
     {
         _Animator = GetComponent<Animator>();
         cam = Camera.main.gameObject;
+        Start_Pos = transform.localPosition;
+        Start_Rot = transform.localRotation;
     }
 
     // Update is called once per frame
@@ -72,6 +78,8 @@ public class Sniper_Controller : MonoBehaviour
                 ScopeOverlay.SetActive(true);
                 Camera.main.fieldOfView = 2f;
                 cam.GetComponent<Camera_Controller>().ChangeSpeed(true);
+                transform.localPosition = Scope_Pos;
+                transform.localRotation = Scope_Rot;
             }
         }
         else
@@ -85,18 +93,31 @@ public class Sniper_Controller : MonoBehaviour
                 ScopeOverlay.SetActive(false);
                 Camera.main.fieldOfView = 35;
                 cam.GetComponent<Camera_Controller>().ChangeSpeed(false);
+                transform.localPosition = Start_Pos;
+                transform.localRotation = Start_Rot;
             }
         }
 
         if (Input.GetMouseButton(1))
         {
-            if (_Animator.GetFloat("Blend") >= 1) { _Animator.SetFloat("Blend", 1); return; }
+            if (_Animator.GetFloat("Blend") >= 1)
+            {
+                _Animator.SetFloat("Blend", 1);
+                _Animator.SetBool("Scoped", true);
+                return;
+            }
             _Animator.SetFloat("Blend", _Animator.GetFloat("Blend") + Speed);
         }
         else
         {
-            if (_Animator.GetFloat("Blend") <= 0) { _Animator.SetFloat("Blend", 0); return; }
-            _Animator.SetFloat("Blend", _Animator.GetFloat("Blend") - Speed);
+            _Animator.SetBool("Scoped", false);
+
+            if (_Animator.GetFloat("Blend") <= 0) 
+            { 
+                _Animator.SetFloat("Blend", 0);
+                return; 
+            }
+               _Animator.SetFloat("Blend", _Animator.GetFloat("Blend") - Speed);
         }
     }
 }

@@ -20,7 +20,7 @@ public class Bullet_Controller : MonoBehaviour
     {
         New  = transform.position;
         rb = GetComponent<Rigidbody>();
-        rb.AddExplosionForce(3000, ForcePosition.position, 1);
+        rb.AddForce(transform.forward * 500, ForceMode.Impulse);
     }
 
     private void RayCheck()
