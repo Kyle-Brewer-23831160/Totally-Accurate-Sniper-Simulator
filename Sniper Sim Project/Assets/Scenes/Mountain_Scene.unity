@@ -701,6 +701,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Mag_Ammo: 10
   ShotPoint: {fileID: 1744697609}
+  SniperBody: {fileID: 1144347639}
+  Speed: 0.01
+  ScopeOverlay: {fileID: 1071824907}
   Bullet: {fileID: 1238861896235577142, guid: 430b73eb8f81cea448297e5cb7bca7ac, type: 3}
 --- !u!4 &426749809
 Transform:
@@ -1712,6 +1715,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1144347639 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4073699874807506857, guid: 1a359da5984459a4d9dabb0e6e7d50bd, type: 3}
+  m_PrefabInstance: {fileID: 1271455800}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1200185761
 GameObject:
   m_ObjectHideFlags: 0
@@ -1825,6 +1833,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 5c4b2dbe8e2f8d34cad9754114ef52bc, type: 2}
+    - target: {fileID: 2374984622266090648, guid: 1a359da5984459a4d9dabb0e6e7d50bd, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2374984622266090648, guid: 1a359da5984459a4d9dabb0e6e7d50bd, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -2878,7 +2890,7 @@ Camera:
     height: 1
   near clip plane: 0.01
   far clip plane: 3000
-  field of view: 34.9
+  field of view: 35
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
