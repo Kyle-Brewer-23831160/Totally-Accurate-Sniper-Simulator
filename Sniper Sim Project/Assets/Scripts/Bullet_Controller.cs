@@ -10,26 +10,35 @@ public class Bullet_Controller : MonoBehaviour
     private RaycastHit hit;
     private Rigidbody rb;
     [SerializeField] private Transform ForcePosition;
-
-    private void Start()
-    {
-
-    }
+    [SerializeField] private GameObject Marker;
 
     public void Initialize(Transform StartPos)
     {
         New  = transform.position;
         rb = GetComponent<Rigidbody>();
-        rb.AddForce(transform.forward * 500, ForceMode.Impulse);
+        rb.AddForce(transform.forward * 350, ForceMode.Impulse);
     }
 
     private void RayCheck()
     {
         OldPos = New;
         New = transform.position;
-        if(Physics.Raycast(OldPos, New, (OldPos - New).magnitude))
-        {
+        Ray ray = new Ray(OldPos, New - OldPos);
 
+        if (Physics.Raycast(ray, out hit, 25))
+        {
+            if(hit.transform.CompareTag("Target"))
+            {
+                print("Hit " + hit.transform.name);
+                Instantiate(Marker, OldPos, Marker.transform.rotation);
+                Instantiate(Marker, ray.GetPoint(25), Marker.transform.rotation);
+                Destroy(gameObject);
+                
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 

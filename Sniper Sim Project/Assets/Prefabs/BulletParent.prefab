@@ -44,7 +44,7 @@ TrailRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1238861896235577142}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -161,6 +161,7 @@ MonoBehaviour:
   OldPos: {x: 0, y: 0, z: 0}
   New: {x: 0, y: 0, z: 0}
   ForcePosition: {fileID: 756483789680168125}
+  Marker: {fileID: 5067875955674694316, guid: 94d8332535242fb44a5f3382aa5e55f0, type: 3}
 --- !u!54 &3079366150621042946
 Rigidbody:
   m_ObjectHideFlags: 0

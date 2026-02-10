@@ -1,10 +1,11 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class Camera_Controller : MonoBehaviour
 {
     private float RotX;
     public float RotY;
-    private Camera Cam;
+    private CinemachineCamera Cam;
     private float CurrentSpeed;
     [SerializeField] private float LookSpeed;
     [SerializeField] private float ScopeSpeed;
@@ -13,7 +14,7 @@ public class Camera_Controller : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Cam = GetComponent<Camera>();
+        Cam = GetComponent<CinemachineCamera>();
         CurrentSpeed = LookSpeed;
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -32,8 +33,6 @@ public class Camera_Controller : MonoBehaviour
 
         RotY += Input.GetAxis("Mouse X") * CurrentSpeed;
         PlayerParent.transform.rotation = Quaternion.Euler(0, RotY, 0);
-
-        print(Input.GetAxis("Mouse X"));
     }
 
     public void ChangeSpeed(bool scoped)

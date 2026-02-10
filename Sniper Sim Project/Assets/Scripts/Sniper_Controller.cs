@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ public class Sniper_Controller : MonoBehaviour
     [SerializeField] private GameObject ScopeOverlay;
     private bool Shell_In_Chamber = true;
     private Animator _Animator;
-    private GameObject cam;
+    [SerializeField] private GameObject cam;
     private Vector3 Start_Pos;
     private Vector3 Scope_Pos = new Vector3(0.517f, -0.235f, 0);
     private Quaternion Start_Rot;
@@ -24,7 +25,6 @@ public class Sniper_Controller : MonoBehaviour
     void Start()
     {
         _Animator = GetComponent<Animator>();
-        cam = Camera.main.gameObject;
         Start_Pos = transform.localPosition;
         Start_Rot = transform.localRotation;
     }
@@ -76,7 +76,7 @@ public class Sniper_Controller : MonoBehaviour
                     SniperBody.transform.GetChild(i).gameObject.SetActive(false);
                 }
                 ScopeOverlay.SetActive(true);
-                Camera.main.fieldOfView = 2f;
+                cam.GetComponent<CinemachineCamera>().Lens.FieldOfView = 2f;
                 cam.GetComponent<Camera_Controller>().ChangeSpeed(true);
                 transform.localPosition = Scope_Pos;
                 transform.localRotation = Scope_Rot;
@@ -91,7 +91,7 @@ public class Sniper_Controller : MonoBehaviour
                     SniperBody.transform.GetChild(i).gameObject.SetActive(true);
                 }
                 ScopeOverlay.SetActive(false);
-                Camera.main.fieldOfView = 35;
+                cam.GetComponent<CinemachineCamera>().Lens.FieldOfView = 35;
                 cam.GetComponent<Camera_Controller>().ChangeSpeed(false);
                 transform.localPosition = Start_Pos;
                 transform.localRotation = Start_Rot;
