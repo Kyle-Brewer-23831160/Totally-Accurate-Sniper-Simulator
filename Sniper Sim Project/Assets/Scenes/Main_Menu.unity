@@ -1416,7 +1416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TransMat: {fileID: 2100000, guid: 348308c4a9488a44897218b77af5c175, type: 2}
-  TransTime: 1
+  TransTimeIn: 1
   OnTransitionComplete:
     m_PersistentCalls:
       m_Calls: []
@@ -2435,7 +2435,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1390544307}
         m_TargetAssemblyTypeName: SceneTransition, Assembly-CSharp
-        m_MethodName: StartTransition
+        m_MethodName: StartTransitionOut
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
