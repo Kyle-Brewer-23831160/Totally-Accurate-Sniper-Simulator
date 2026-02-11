@@ -13,10 +13,6 @@ public class Sniper_Controller : MonoBehaviour
     private bool Shell_In_Chamber = true;
     private Animator _Animator;
     [SerializeField] private GameObject cam;
-    private Vector3 Start_Pos;
-    private Vector3 Scope_Pos = new Vector3(0.517f, -0.235f, 0);
-    private Quaternion Start_Rot;
-    private Quaternion Scope_Rot = new Quaternion(0,0,0,0);
 
     [Header("Bullet Variables")]
     [SerializeField] private GameObject Bullet;
@@ -25,8 +21,6 @@ public class Sniper_Controller : MonoBehaviour
     void Start()
     {
         _Animator = GetComponent<Animator>();
-        Start_Pos = transform.localPosition;
-        Start_Rot = transform.localRotation;
     }
 
     // Update is called once per frame
@@ -69,33 +63,11 @@ public class Sniper_Controller : MonoBehaviour
     {
         if (_Animator.GetFloat("Blend") == 1)
         {
-            if (SniperBody.transform.GetChild(SniperBody.transform.childCount - 1).gameObject.activeInHierarchy)
-            {
-                for (int i = 0; i < SniperBody.transform.childCount; i++)
-                {
-                    SniperBody.transform.GetChild(i).gameObject.SetActive(false);
-                }
-                ScopeOverlay.SetActive(true);
-                cam.GetComponent<CinemachineCamera>().Lens.FieldOfView = 2f;
                 cam.GetComponent<Camera_Controller>().ChangeSpeed(true);
-                transform.localPosition = Scope_Pos;
-                transform.localRotation = Scope_Rot;
-            }
         }
         else
         {
-            if (!SniperBody.transform.GetChild(SniperBody.transform.childCount - 1).gameObject.activeInHierarchy)
-            {
-                for (int i = 0; i < SniperBody.transform.childCount; i++)
-                {
-                    SniperBody.transform.GetChild(i).gameObject.SetActive(true);
-                }
-                ScopeOverlay.SetActive(false);
-                cam.GetComponent<CinemachineCamera>().Lens.FieldOfView = 35;
                 cam.GetComponent<Camera_Controller>().ChangeSpeed(false);
-                transform.localPosition = Start_Pos;
-                transform.localRotation = Start_Rot;
-            }
         }
 
         if (Input.GetMouseButton(1))
