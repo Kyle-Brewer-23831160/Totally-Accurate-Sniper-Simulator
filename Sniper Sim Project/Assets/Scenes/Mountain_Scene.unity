@@ -833,6 +833,7 @@ MonoBehaviour:
   Speed: 0.01
   ScopeOverlay: {fileID: 1071824907}
   cam: {fileID: 2130710643}
+  IdleTimerStartValue: 3
   Bullet: {fileID: 1238861896235577142, guid: 430b73eb8f81cea448297e5cb7bca7ac, type: 3}
 --- !u!4 &426749809
 Transform:
@@ -842,14 +843,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 426749807}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.00954343, y: 0.009046716, z: 0.00622931, w: 0.99989414}
-  m_LocalPosition: {x: 1.57, y: -1.64, z: 10.25}
+  m_LocalRotation: {x: -0.36595, y: -0.34335202, z: 0.4102366, w: 0.76150906}
+  m_LocalPosition: {x: -2.8, y: -1.84, z: 9.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1420813379879464546}
   m_Father: {fileID: 2130710646}
-  m_LocalEulerAnglesHint: {x: -1.1, y: 1.03, z: 0.704}
+  m_LocalEulerAnglesHint: {x: -16, y: -58.91, z: 65.7}
 --- !u!95 &426749810
 Animator:
   serializedVersion: 7
