@@ -36,12 +36,16 @@ public class Sniper_Controller : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && Shell_In_Chamber)
         {
-            //call function to spawn bullet
-            //feed bullet information such as sniper angle and position
-            //Shell_In_Chamber = false;
-            GameObject bullet = Instantiate(Bullet, ShotPoint.transform.position, transform.rotation);
-            Bullet_Controller BulletScript = bullet.GetComponent<Bullet_Controller>();
-            BulletScript.Initialize(transform);
+            if (_Animator.GetFloat("Blend") == 1 || _Animator.GetFloat("Blend") == 0)
+            {
+                //call function to spawn bullet
+                //feed bullet information such as sniper angle and position
+                //Shell_In_Chamber = false;
+                GameObject bullet = Instantiate(Bullet, ShotPoint.transform.position, transform.rotation);
+                Bullet_Controller BulletScript = bullet.GetComponent<Bullet_Controller>();
+                BulletScript.Initialize(transform);
+                _Animator.Play("Recoil");
+            }
         }
     }  
 
