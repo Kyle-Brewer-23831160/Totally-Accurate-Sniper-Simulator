@@ -55,12 +55,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _CamSize: 1
-    - _Depth: 1
+    - _CamSize: 0
+    - _Depth: 3
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Thickness: 0.6
+    - _Thickness: 0.3
     m_Colors:
-    - _CrosshairColor: {r: 1, g: 1, b: 1, a: 1}
+    - _CrosshairColor: {r: 1, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

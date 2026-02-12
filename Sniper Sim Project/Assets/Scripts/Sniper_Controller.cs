@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Cinemachine;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
@@ -42,7 +43,7 @@ public class Sniper_Controller : MonoBehaviour
             Bullet_Controller BulletScript = bullet.GetComponent<Bullet_Controller>();
             BulletScript.Initialize(transform);
         }
-    }
+    }  
 
     private void Reload()
     {
