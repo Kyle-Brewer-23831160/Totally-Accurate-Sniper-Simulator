@@ -17,6 +17,7 @@ public class Sniper_Controller : MonoBehaviour
     [SerializeField] private GameObject cam;
     private float IdleTimer;
     [SerializeField] private float IdleTimerStartValue;
+    private bool reloading;
 
     [Header("Bullet Variables")]
     [SerializeField] private GameObject Bullet;
@@ -31,10 +32,14 @@ public class Sniper_Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Fire();
-        Reload();
-        ScopeAnimController();
-        TryIdle();
+        if (!reloading)
+        {
+            Fire();
+            Reload();
+            ScopeAnimController();
+            TryIdle();
+            StartReload();
+        }
     }
 
     private void Fire()
@@ -43,8 +48,6 @@ public class Sniper_Controller : MonoBehaviour
         {
             if (_Animator.GetFloat("Blend") == 2 || _Animator.GetFloat("Blend") > 0.9f)
             {
-                //call function to spawn bullet
-                //feed bullet information such as sniper angle and position
                 Shell_In_Chamber = false;
                 GameObject bullet = Instantiate(Bullet, ShotPoint.transform.position, transform.rotation);
                 Bullet_Controller BulletScript = bullet.GetComponent<Bullet_Controller>();
@@ -123,5 +126,37 @@ public class Sniper_Controller : MonoBehaviour
         {
             _Animator.SetFloat("Blend", 0);
         }
+    }
+
+    private void StartReload()
+    {
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            if(!reloading)
+            {
+                StartCoroutine(MoveToReload());
+            }
+        }
+    }
+
+    private IEnumerator MoveToReload()
+    {
+        while(_Animator.GetFloat("Blend") > -1)
+        {
+            reloading = true;
+            _Animator.SetFloat("Blend", _Animator.GetFloat("Blend") - Speed);
+            yield return null;
+        }
+
+        _Animator.Play("Reload");
+
+        yield return null;
+    }
+
+    private void StopReload()
+    {
+        reloading = false;
+        Shell_In_Chamber = true;
+        _Animator.SetFloat("Blend", 0);
     }
 }
