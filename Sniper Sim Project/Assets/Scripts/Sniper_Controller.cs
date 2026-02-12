@@ -35,7 +35,6 @@ public class Sniper_Controller : MonoBehaviour
         if (!reloading)
         {
             Fire();
-            Reload();
             ScopeAnimController();
             TryIdle();
             StartReload();
@@ -44,10 +43,11 @@ public class Sniper_Controller : MonoBehaviour
 
     private void Fire()
     {
-        if (Input.GetMouseButtonDown(0) && Shell_In_Chamber)
+        if (Input.GetMouseButtonDown(0) && Shell_In_Chamber && Mag_Ammo >= 1)
         {
             if (_Animator.GetFloat("Blend") == 2 || _Animator.GetFloat("Blend") > 0.9f)
             {
+                Mag_Ammo -= 1;
                 Shell_In_Chamber = false;
                 GameObject bullet = Instantiate(Bullet, ShotPoint.transform.position, transform.rotation);
                 Bullet_Controller BulletScript = bullet.GetComponent<Bullet_Controller>();
@@ -56,21 +56,6 @@ public class Sniper_Controller : MonoBehaviour
             }
         }
     }  
-
-    private void Reload()
-    {
-        if (!Shell_In_Chamber)
-        {
-            if (Mag_Ammo > 0)
-            {
-                //logic to put another bullet into the chamber
-            }
-            else
-            {
-                //logic to swap magazine
-            }
-        }
-    }
 
     private void ScopeAnimController()
     {
@@ -132,9 +117,12 @@ public class Sniper_Controller : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.R))
         {
-            if(!reloading)
+            if (!Shell_In_Chamber)
             {
-                StartCoroutine(MoveToReload());
+                if (!reloading)
+                {
+                    StartCoroutine(MoveToReload());
+                }
             }
         }
     }
@@ -148,7 +136,14 @@ public class Sniper_Controller : MonoBehaviour
             yield return null;
         }
 
-        _Animator.Play("Reload");
+        if (Mag_Ammo >= 1)
+        {
+            _Animator.Play("Reload");
+        }
+        else
+        {
+            _Animator.Play("ReplaceMag");
+        }
 
         yield return null;
     }
@@ -157,6 +152,14 @@ public class Sniper_Controller : MonoBehaviour
     {
         reloading = false;
         Shell_In_Chamber = true;
+        _Animator.SetFloat("Blend", 0);
+    }
+
+    private void StopMagReload()
+    {
+        reloading = false;
+        Shell_In_Chamber = true;
+        Mag_Ammo = 5;
         _Animator.SetFloat("Blend", 0);
     }
 }

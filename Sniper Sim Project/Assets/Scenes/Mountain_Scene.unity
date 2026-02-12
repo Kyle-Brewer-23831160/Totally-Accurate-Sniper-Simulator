@@ -827,7 +827,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 524c5cfd27664ef44a1242b47d274bd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Mag_Ammo: 10
+  Mag_Ammo: 1
   ShotPoint: {fileID: 1744697609}
   SniperBody: {fileID: 9034370772854243519}
   Speed: 0.015
