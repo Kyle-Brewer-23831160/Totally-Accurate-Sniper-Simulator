@@ -19,6 +19,9 @@ public class Sniper_Controller : MonoBehaviour
     [SerializeField] private float IdleTimerStartValue;
     private bool reloading;
 
+    //Audio 
+    [SerializeField] private GameObject[] SniperAudioSources;
+
     [Header("Bullet Variables")]
     [SerializeField] private GameObject Bullet;
 
@@ -49,13 +52,18 @@ public class Sniper_Controller : MonoBehaviour
             {
                 Mag_Ammo -= 1;
                 Shell_In_Chamber = false;
-                GameObject bullet = Instantiate(Bullet, ShotPoint.transform.position, transform.rotation);
-                Bullet_Controller BulletScript = bullet.GetComponent<Bullet_Controller>();
-                BulletScript.Initialize(transform);
+                PlaySound(2);
                 _Animator.Play("Recoil");
             }
         }
     }  
+
+    private void SpawnBullet()
+    {
+        GameObject bullet = Instantiate(Bullet, ShotPoint.transform.position, transform.rotation);
+        Bullet_Controller BulletScript = bullet.GetComponent<Bullet_Controller>();
+        BulletScript.Initialize(transform);
+    }
 
     private void ScopeAnimController()
     {
@@ -152,7 +160,7 @@ public class Sniper_Controller : MonoBehaviour
     {
         reloading = false;
         Shell_In_Chamber = true;
-        _Animator.SetFloat("Blend", 0);
+        _Animator.SetFloat("Blend", 1);
     }
 
     private void StopMagReload()
@@ -160,6 +168,11 @@ public class Sniper_Controller : MonoBehaviour
         reloading = false;
         Shell_In_Chamber = true;
         Mag_Ammo = 5;
-        _Animator.SetFloat("Blend", 0);
+        _Animator.SetFloat("Blend", 1);
+    }
+
+    private void PlaySound(int index)
+    {
+        SniperAudioSources[index].GetComponent<AudioSource>().Play();
     }
 }

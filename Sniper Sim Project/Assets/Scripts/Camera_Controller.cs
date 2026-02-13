@@ -5,7 +5,7 @@ public class Camera_Controller : MonoBehaviour
 {
     private float RotX;
     public float RotY;
-    private CinemachineCamera Cam;
+    private Camera Cam;
     private float CurrentSpeed;
     [SerializeField] private float LookSpeed;
     [SerializeField] private float ScopeSpeed;
@@ -14,7 +14,7 @@ public class Camera_Controller : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Cam = GetComponent<CinemachineCamera>();
+        Cam = GetComponent<Camera>();
         CurrentSpeed = LookSpeed;
         Cursor.lockState = CursorLockMode.Locked;
     }
