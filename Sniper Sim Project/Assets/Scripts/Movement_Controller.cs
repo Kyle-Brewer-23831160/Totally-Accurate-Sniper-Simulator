@@ -1,0 +1,114 @@
+using TMPro;
+using UnityEngine;
+
+public class Movement_Controller : MonoBehaviour
+{
+    [Header("Directional Movement Variables")]
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] private float Sprint_Speed;
+    [SerializeField] private float Walk_Speed;
+    private float Walk_Speed_Save;
+    private float Horiz_Input;
+    private float Vert_Input;
+    private Transform Orientation;
+    private Vector3 Dir;
+
+
+    [Header("Keybinds")]
+    [SerializeField] private KeyCode Jump_key = KeyCode.Space;
+    [SerializeField] private KeyCode Sprint_Key = KeyCode.LeftShift;
+
+    [Header("Gravity Values")]
+    [SerializeField] private Transform GravityRaycastPoint;
+    [SerializeField] private float RaycastDistance;
+    [SerializeField] private float GravityValue;
+    private RaycastHit Hit;
+    [SerializeField]  private bool falling;
+
+    private void Awake()
+    {
+        Walk_Speed_Save = Walk_Speed;
+
+        rb = GetComponent<Rigidbody>();
+        rb.freezeRotation = true;
+
+        Orientation = GetComponent<Transform>();
+    }
+
+    private void Update()
+    {
+        Inputs();
+    }
+
+    private void FixedUpdate()
+    {
+        Movement();
+        CustomGravity();
+    }
+
+    private void Inputs()
+    {
+        Horiz_Input = Input.GetAxisRaw("Horizontal");
+        Vert_Input = Input.GetAxisRaw("Vertical");
+    }
+
+    private void Movement()
+    {
+        if (!falling)
+        {
+            Dir = Orientation.forward * Vert_Input + Orientation.right * Horiz_Input; //calculates what direction to move the player based on orientation and key inputs
+        }
+
+        rb.linearVelocity = AdjustForSlopes();
+
+        if (Input.GetKey(Sprint_Key))
+        {
+            Walk_Speed = Sprint_Speed; //swaps values
+        }
+        else
+        {
+            Walk_Speed = Walk_Speed_Save;
+        }
+    }
+
+    private Vector3 AdjustForSlopes()
+    {
+        Ray ray = new Ray(GravityRaycastPoint.position, Vector3.down);
+
+        if (Physics.Raycast(ray, out Hit, RaycastDistance))
+        {
+            Quaternion sloperotation = Quaternion.FromToRotation(Vector3.up, Hit.normal);
+            Vector3 SlopeCheck = sloperotation * (Dir.normalized * Walk_Speed_Save); //check using an unchanging variable
+            Vector3 NewVelocity = sloperotation * (Dir.normalized * Walk_Speed);
+
+            if (SlopeCheck.y < 0)
+            {
+                if (SlopeCheck.y > -3) //slope isnt steep enough to justify forced movement
+                {
+                    falling = false;
+                    return NewVelocity;
+                }
+                else //slope is steep, force movement
+                {
+                    falling = true;
+                    NewVelocity = sloperotation * (Dir.normalized * 15);
+                    return NewVelocity;
+                }
+            }
+            else //player is level or moving up
+            {
+                falling = false;
+                return Dir.normalized * Walk_Speed;
+            }
+        }
+
+        CustomGravity(); //no floor hit by raycast, player is falling
+        return Vector3.zero;
+    }
+
+    private void CustomGravity() 
+    {
+      rb.AddForce(Vector3.down * (GravityValue * 1000) * Time.fixedDeltaTime, ForceMode.Acceleration);
+    }
+}
+
