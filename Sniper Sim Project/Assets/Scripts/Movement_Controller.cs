@@ -17,6 +17,7 @@ public class Movement_Controller : MonoBehaviour
     [Header("Keybinds")]
     [SerializeField] private KeyCode Jump_key = KeyCode.Space;
     [SerializeField] private KeyCode Sprint_Key = KeyCode.LeftShift;
+    [SerializeField] private KeyCode Prone_Key = KeyCode.C;
 
     [Header("Gravity Values")]
     [SerializeField] private Transform GravityRaycastPoint;
@@ -24,6 +25,13 @@ public class Movement_Controller : MonoBehaviour
     [SerializeField] private float GravityValue;
     private RaycastHit Hit;
     [SerializeField]  private bool falling;
+
+    [Header("Collider Values")]
+    [SerializeField] private CapsuleCollider capsuleCollider;
+    [SerializeField] private float ProneSpeed;
+    public bool proning;
+    private float DefaultHeight;
+    private float NewHeight;
 
     private void Awake()
     {
@@ -33,11 +41,14 @@ public class Movement_Controller : MonoBehaviour
         rb.freezeRotation = true;
 
         Orientation = GetComponent<Transform>();
+
+        DefaultHeight = capsuleCollider.height;
     }
 
     private void Update()
     {
         Inputs();
+        ProneStateCheck();
     }
 
     private void FixedUpdate()
@@ -69,6 +80,34 @@ public class Movement_Controller : MonoBehaviour
         {
             Walk_Speed = Walk_Speed_Save;
         }
+    }
+
+    private void ProneStateCheck()
+    {
+        if (Input.GetKeyDown(Prone_Key))
+        {
+            print("oog");
+            proning = !proning;
+            NewHeight = capsuleCollider.height;
+        }
+
+        if (proning)
+        {
+            if (NewHeight > 0)
+            {
+                NewHeight = Mathf.Lerp(NewHeight, 0, ProneSpeed * Time.fixedDeltaTime);
+                capsuleCollider.height = NewHeight;
+            }
+        }
+        else
+        {
+            if (NewHeight < DefaultHeight)
+            {
+                NewHeight = Mathf.Lerp(NewHeight, DefaultHeight, ProneSpeed * Time.fixedDeltaTime);
+                capsuleCollider.height = NewHeight;
+            }
+        }
+
     }
 
     private Vector3 AdjustForSlopes()
