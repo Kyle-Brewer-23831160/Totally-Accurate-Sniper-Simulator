@@ -5,7 +5,7 @@ public class Camera_Controller : MonoBehaviour
 {
     private float RotX;
     public float RotY;
-    private Camera Cam;
+    [SerializeField] private Transform Cam;
     private float CurrentSpeed;
     [SerializeField] private float LookSpeed;
     [SerializeField] private float ScopeSpeed;
@@ -14,7 +14,6 @@ public class Camera_Controller : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Cam = GetComponent<Camera>();
         CurrentSpeed = LookSpeed;
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -29,8 +28,9 @@ public class Camera_Controller : MonoBehaviour
     {
         RotX += Input.GetAxis("Mouse Y") * CurrentSpeed;
         RotX = Mathf.Clamp(RotX, MinXlimit, MaxXlimit);
-        Cam.transform.localRotation = Quaternion.Euler(-RotX, 0, 0);
 
+        Cam.transform.localRotation = Quaternion.Euler(-RotX, 0, 0);
+        
         RotY += Input.GetAxis("Mouse X") * CurrentSpeed;
         PlayerParent.transform.rotation = Quaternion.Euler(0, RotY, 0);
     }
