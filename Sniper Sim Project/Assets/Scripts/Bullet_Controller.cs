@@ -56,4 +56,9 @@ public class Bullet_Controller : MonoBehaviour
         CoriolisAccount();
         timer();
     }
-}
+
+    //notes
+    //if shot in north hemisphere, will tilt to the right
+    //if shot in south hemisphere, will tilt to the left
+    //if shot facing east, bullet will hit higher
+    //if shot facing west, bullet withh hit lower
