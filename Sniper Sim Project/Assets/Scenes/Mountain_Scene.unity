@@ -7306,7 +7306,7 @@ MonoBehaviour:
   Mag_Ammo: 1
   ShotPoint: {fileID: 1091964488674334553}
   SniperBody: {fileID: 7383516646978295585}
-  Speed: 0.015
+  Speed: 0.4
   ScopeOverlay: {fileID: 0}
   cam: {fileID: 7255152647359850948}
   IdleTimerStartValue: 3

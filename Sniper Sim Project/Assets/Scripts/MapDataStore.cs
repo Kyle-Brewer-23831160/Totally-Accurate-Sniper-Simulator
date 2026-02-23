@@ -5,9 +5,14 @@ using UnityEngine.UI;
 
 public class MapDataStore : MonoBehaviour
 {
-    private bool[] WindDir = new bool[4]; //0 north, 1 east, 2 south, 3 west
-    private int speed;
-    private bool[] Hemisphere = new bool[2]; //0 Northern, 1 Southern
+    [SerializeField] private bool[] WindDir = new bool[4]; //0 north, 1 east, 2 south, 3 west
+    [SerializeField] private int speed;
+    [SerializeField] private bool[] Hemisphere = new bool[2]; //0 Northern, 1 Southern
+
+    private void Start()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
 
     public int DirectionGetter()
     {
