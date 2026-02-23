@@ -69,11 +69,11 @@ public class Sniper_Controller : MonoBehaviour
     {
         if (_Animator.GetFloat("Blend") == 2)
         {
-                cam.GetComponent<Camera_Controller>().ChangeSpeed(true);
+            cam.GetComponent<Camera_Controller>().ChangeSpeed(true);
         }
         else
         {
-                cam.GetComponent<Camera_Controller>().ChangeSpeed(false);
+            cam.GetComponent<Camera_Controller>().ChangeSpeed(false);
         }
 
         if (Input.GetMouseButton(1))
@@ -84,7 +84,7 @@ public class Sniper_Controller : MonoBehaviour
                 _Animator.SetBool("Scoped", true);
                 return;
             }
-            _Animator.SetFloat("Blend", _Animator.GetFloat("Blend") + Speed);
+            _Animator.SetFloat("Blend", _Animator.GetFloat("Blend") + Speed * Time.fixedDeltaTime);
         }
         else
         {
@@ -92,7 +92,7 @@ public class Sniper_Controller : MonoBehaviour
 
             if (_Animator.GetFloat("Blend") > 1)
             {
-                _Animator.SetFloat("Blend", _Animator.GetFloat("Blend") - Speed);
+                _Animator.SetFloat("Blend", _Animator.GetFloat("Blend") - Speed * Time.fixedDeltaTime);
             }
         }
     }
@@ -102,7 +102,7 @@ public class Sniper_Controller : MonoBehaviour
         if (IdleTimer > 0) { IdleTimer -= Time.deltaTime; }
         else
         {
-            if (_Animator.GetFloat("Blend") > 0) { _Animator.SetFloat("Blend", _Animator.GetFloat("Blend") - Speed); }
+            if (_Animator.GetFloat("Blend") > 0) { _Animator.SetFloat("Blend", _Animator.GetFloat("Blend") - Speed * Time.fixedDeltaTime); }
         }
 
         if (Input.GetMouseButton(1) || Input.GetMouseButton(0))
@@ -112,7 +112,7 @@ public class Sniper_Controller : MonoBehaviour
 
         if (!Input.GetMouseButton(1) && _Animator.GetFloat("Blend") < 0.9f && _Animator.GetFloat("Blend") > 0)
         {
-            _Animator.SetFloat("Blend", _Animator.GetFloat("Blend") - Speed);
+            _Animator.SetFloat("Blend", _Animator.GetFloat("Blend") - Speed * Time.fixedDeltaTime);
         }
 
         if(_Animator.GetFloat("Blend") < 0)
@@ -140,7 +140,7 @@ public class Sniper_Controller : MonoBehaviour
         while(_Animator.GetFloat("Blend") > -1)
         {
             reloading = true;
-            _Animator.SetFloat("Blend", _Animator.GetFloat("Blend") - Speed);
+            _Animator.SetFloat("Blend", _Animator.GetFloat("Blend") - Speed * Time.fixedDeltaTime);
             yield return null;
         }
 

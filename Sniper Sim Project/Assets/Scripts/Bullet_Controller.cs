@@ -14,7 +14,7 @@ public class Bullet_Controller : MonoBehaviour
 
     public void Initialize(Transform StartPos)
     {
-        New  = transform.position;
+        New = transform.position;
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.forward * Speed, ForceMode.Impulse);
     }
@@ -27,9 +27,9 @@ public class Bullet_Controller : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, Vector3.Distance(OldPos, New)))
         {
-            if(hit.transform.CompareTag("Target"))
+            if (hit.transform.CompareTag("Target"))
             {
-                Destroy(gameObject); 
+                Destroy(gameObject);
             }
             print("Hit " + hit.transform.name);
             Destroy(gameObject);
@@ -51,7 +51,7 @@ public class Bullet_Controller : MonoBehaviour
     }
 
     private void FixedUpdate()
-    { 
+    {
         RayCheck();
         CoriolisAccount();
         timer();
@@ -62,3 +62,4 @@ public class Bullet_Controller : MonoBehaviour
     //if shot in south hemisphere, will tilt to the left
     //if shot facing east, bullet will hit higher
     //if shot facing west, bullet withh hit lower
+}

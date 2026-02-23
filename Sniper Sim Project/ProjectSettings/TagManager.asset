@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Target
   - Ground
+  - ParentCanvas
   layers:
   - Default
   - TransparentFX
