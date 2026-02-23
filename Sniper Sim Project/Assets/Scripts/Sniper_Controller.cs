@@ -24,12 +24,16 @@ public class Sniper_Controller : MonoBehaviour
 
     [Header("Bullet Variables")]
     [SerializeField] private GameObject Bullet;
+    [SerializeField] private Transform[] Directions; //0 North, 1 East, 2 South, 3 West;
+    [SerializeField] private Transform[] HemisphereDirections; //0 Northern, 1 Southern
+    private MapDataStore _mapDataStore;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _Animator = GetComponent<Animator>();
         IdleTimer = IdleTimerStartValue;
+        _mapDataStore = FindFirstObjectByType<MapDataStore>();
     }
 
     // Update is called once per frame
@@ -62,6 +66,11 @@ public class Sniper_Controller : MonoBehaviour
     {
         GameObject bullet = Instantiate(Bullet, ShotPoint.transform.position, transform.rotation);
         Bullet_Controller BulletScript = bullet.GetComponent<Bullet_Controller>();
+        BulletScript.East = Directions[1];
+        BulletScript.West = Directions[3];
+        BulletScript.CoriolisDir = HemisphereDirections[_mapDataStore.GetHemisphereIndex()];
+        BulletScript.WindDir = Directions[_mapDataStore.DirectionGetter()];
+        BulletScript.WindSpeed = _mapDataStore.WindSpeedGetter();
         BulletScript.Initialize(transform);
     }
 

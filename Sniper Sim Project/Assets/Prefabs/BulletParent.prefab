@@ -47,11 +47,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae6e4bfade730e74daa4e28358f1aa30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 250
+  Speed: 200
   Life_Time: 5
   OldPos: {x: 0, y: 0, z: 0}
   New: {x: 0, y: 0, z: 0}
   ForcePosition: {fileID: 756483789680168125}
+  CoriolisStrength: 500
+  CoriolisDir: {fileID: 0}
+  WindSpeed: 0
+  WindDir: {fileID: 0}
+  Marker: {fileID: 5741741702715578787, guid: 2b6e639b26587ae4584924812083e3aa, type: 3}
 --- !u!54 &3079366150621042946
 Rigidbody:
   m_ObjectHideFlags: 0

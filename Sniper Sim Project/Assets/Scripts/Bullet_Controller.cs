@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 
@@ -10,13 +11,32 @@ public class Bullet_Controller : MonoBehaviour
     private RaycastHit hit;
     private Rigidbody rb;
     [SerializeField] private Transform ForcePosition;
-    [SerializeField] private float CoriolisStrength;
+    public float CoriolisStrength;
+    public Transform CoriolisDir;
+    public float WindSpeed;
+    public Transform WindDir;
+    public GameObject Marker;
+
+    public Transform East;
+    public Transform West;
+
+    private bool FacingEast;
+    private float StrengthMultiplier;
 
     public void Initialize(Transform StartPos)
     {
         New = transform.position;
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.forward * Speed, ForceMode.Impulse);
+
+        Vector3 Dir = (CoriolisDir.position - transform.position).normalized;
+
+        float AngleFromWest = Vector3.SignedAngle(transform.forward, (West.position - transform.position), Vector3.up);
+        float AngleFromEast = Vector3.SignedAngle(transform.forward, (East.position - transform.position), Vector3.up);
+
+        FacingEast = AngleFromEast < AngleFromWest;
+
+        StrengthMultiplier = FacingEast ? Mathf.InverseLerp(-180, 180, AngleFromEast) : Mathf.InverseLerp(-180, 180, AngleFromWest);
     }
 
     private void RayCheck()
@@ -31,7 +51,8 @@ public class Bullet_Controller : MonoBehaviour
             {
                 Destroy(gameObject);
             }
-            print("Hit " + hit.transform.name);
+            print("hit floor");
+            Instantiate(Marker, hit.transform);
             Destroy(gameObject);
         }
     }
@@ -47,7 +68,12 @@ public class Bullet_Controller : MonoBehaviour
 
     private void CoriolisAccount()
     {
-        rb.AddForce(Vector3.left * (CoriolisStrength / 100), ForceMode.Acceleration);
+        //Hemisphere Effects
+        Vector3 HemisphereEffect = CoriolisDir.name == "North" ? Vector3.right : Vector3.left;
+        rb.AddForce(HemisphereEffect * (CoriolisStrength / 100), ForceMode.Acceleration);
+
+        if(FacingEast) { rb.AddForce((East.position - transform.position) * (100 * StrengthMultiplier), ForceMode.Acceleration); }
+        else { rb.AddForce((West.position - transform.position) * (100 * StrengthMultiplier), ForceMode.Acceleration); }
     }
 
     private void FixedUpdate()
