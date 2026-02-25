@@ -35,6 +35,8 @@ public class Bullet_Controller : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.forward * Speed, ForceMode.Impulse);
 
+        if (CoriolisDir == null) { return; }
+
         Vector3 Dir = (CoriolisDir.position - transform.position).normalized;
 
         float AngleFromWest = Vector3.SignedAngle(transform.forward, (West.position - transform.position), Vector3.up);
@@ -94,7 +96,7 @@ public class Bullet_Controller : MonoBehaviour
     private void FixedUpdate()
     {
         RayCheck();
-        CoriolisAccount();
+        if (CoriolisDir != null) { CoriolisAccount(); }
         timer();
     }
 

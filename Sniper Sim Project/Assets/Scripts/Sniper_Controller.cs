@@ -66,7 +66,7 @@ public class Sniper_Controller : MonoBehaviour
     {
         GameObject bullet = Instantiate(Bullet, ShotPoint.transform.position, transform.rotation);
         Bullet_Controller BulletScript = bullet.GetComponent<Bullet_Controller>();
-        if (Directions.Length > 0)
+        if (Directions[0] != null)
         {
             BulletScript.East = Directions[1];
             BulletScript.West = Directions[3];
