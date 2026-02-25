@@ -66,11 +66,14 @@ public class Sniper_Controller : MonoBehaviour
     {
         GameObject bullet = Instantiate(Bullet, ShotPoint.transform.position, transform.rotation);
         Bullet_Controller BulletScript = bullet.GetComponent<Bullet_Controller>();
-        BulletScript.East = Directions[1];
-        BulletScript.West = Directions[3];
-        BulletScript.CoriolisDir = HemisphereDirections[_mapDataStore.GetHemisphereIndex()];
-        BulletScript.WindDir = Directions[_mapDataStore.DirectionGetter()];
-        BulletScript.WindSpeed = _mapDataStore.WindSpeedGetter();
+        if (Directions.Length > 0)
+        {
+            BulletScript.East = Directions[1];
+            BulletScript.West = Directions[3];
+            BulletScript.CoriolisDir = HemisphereDirections[_mapDataStore.GetHemisphereIndex()];
+            BulletScript.WindDir = Directions[_mapDataStore.DirectionGetter()];
+            BulletScript.WindSpeed = _mapDataStore.WindSpeedGetter();
+        }
         BulletScript.Initialize(transform);
     }
 

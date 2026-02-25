@@ -22,9 +22,15 @@ public class Bullet_Controller : MonoBehaviour
 
     private bool FacingEast;
     private float StrengthMultiplier;
+    [SerializeField] private float BaseStrength;
 
     public void Initialize(Transform StartPos)
     {
+        if(GameObject.FindGameObjectWithTag("Marker"))
+        {
+            Destroy(GameObject.FindGameObjectWithTag("Marker"));
+        }
+
         New = transform.position;
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.forward * Speed, ForceMode.Impulse);
@@ -37,6 +43,7 @@ public class Bullet_Controller : MonoBehaviour
         FacingEast = AngleFromEast < AngleFromWest;
 
         StrengthMultiplier = FacingEast ? Mathf.InverseLerp(-180, 180, AngleFromEast) : Mathf.InverseLerp(-180, 180, AngleFromWest);
+        print("multiplier - " + StrengthMultiplier);
     }
 
     private void RayCheck()
@@ -50,9 +57,10 @@ public class Bullet_Controller : MonoBehaviour
             if (hit.transform.CompareTag("Target"))
             {
                 Destroy(gameObject);
+                print("hit Target");
             }
             print("hit floor");
-            Instantiate(Marker, hit.transform);
+            GameObject mark = Instantiate(Marker, hit.point, transform.rotation) as GameObject;
             Destroy(gameObject);
         }
     }
@@ -70,11 +78,18 @@ public class Bullet_Controller : MonoBehaviour
     {
         //Hemisphere Effects
         Vector3 HemisphereEffect = CoriolisDir.name == "North" ? Vector3.right : Vector3.left;
-        rb.AddForce(HemisphereEffect * (CoriolisStrength / 100), ForceMode.Acceleration);
+        rb.AddForce(HemisphereEffect * (CoriolisStrength), ForceMode.Acceleration);
 
-        if(FacingEast) { rb.AddForce((East.position - transform.position) * (100 * StrengthMultiplier), ForceMode.Acceleration); }
-        else { rb.AddForce((West.position - transform.position) * (100 * StrengthMultiplier), ForceMode.Acceleration); }
+        //Directional Effects
+        float multiplier = (BaseStrength / 100) * StrengthMultiplier;
+        Vector3 direction = Vector3.zero;
+
+        if (FacingEast) {direction = East.position - transform.position; }
+        else {direction = West.position - transform.position; }
+
+        rb.AddForce(direction * multiplier, ForceMode.Force);
     }
+
 
     private void FixedUpdate()
     {
@@ -89,3 +104,4 @@ public class Bullet_Controller : MonoBehaviour
     //if shot facing east, bullet will hit higher
     //if shot facing west, bullet withh hit lower
 }
+

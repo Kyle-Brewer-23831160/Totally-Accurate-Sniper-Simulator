@@ -7,6 +7,7 @@ TagManager:
   - Target
   - Ground
   - ParentCanvas
+  - Marker
   layers:
   - Default
   - TransparentFX
