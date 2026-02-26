@@ -14,11 +14,13 @@ public class Bullet_Controller : MonoBehaviour
 
     [Header("Wind Variables")]
     [SerializeField] private float WindSpeed;
-    [SerializeField] private Transform WindDir;
+    [SerializeField] private float WindSpeedDivider;
+    private int WindDirIndex;
+    private Vector3 WindDirectionVector;
 
     [Header("Coriolis Variables")]
     [SerializeField] private float CoriolisStrength;
-    [SerializeField] private float StrengthMultiplier;
+    private float StrengthMultiplier;
     private Transform East;
     private Transform West;
     private bool FacingEast;
@@ -33,12 +35,12 @@ public class Bullet_Controller : MonoBehaviour
 
     public void Initialize(Transform StartPos, MapDataStore _MapDataStore)
     {
-        WindSpeed = _MapDataStore.WindSpeedGetter();
-
         if (GameObject.FindGameObjectWithTag("Marker"))
         {
             Destroy(GameObject.FindGameObjectWithTag("Marker"));
         }
+
+        WindSetUp(_MapDataStore);
 
         New = transform.position;
         rb = GetComponent<Rigidbody>();
@@ -53,8 +55,6 @@ public class Bullet_Controller : MonoBehaviour
         West = DirArray[3];
      
         CurrentHemisphere = Hemispheres[_MapDataStore.GetHemisphereIndex()];
-
-        WindDir = DirArray[_MapDataStore.DirectionGetter()];
     }
 
     private void FacingDirectionCalculations()
@@ -72,6 +72,25 @@ public class Bullet_Controller : MonoBehaviour
         else if(AngleFromEast > AngleFromWest) { FacingEast = true; }
 
         StrengthMultiplier = FacingEast ? Mathf.InverseLerp(-180, 180, AngleFromEast) : Mathf.InverseLerp(-180, 180, AngleFromWest);
+    }
+
+    private void WindSetUp(MapDataStore store)
+    {
+        WindSpeed = store.WindSpeedGetter();
+        WindDirIndex = store.DirectionGetter();
+
+        switch (WindDirIndex)
+        {
+            case 0: WindDirectionVector = Vector3.forward; break; //North
+            case 1: WindDirectionVector = Vector3.right; break; //East
+            case 2: WindDirectionVector = Vector3.back; break; //South
+            case 3: WindDirectionVector = Vector3.left; break; //West
+            case 4: WindDirectionVector = Vector3.forward + Vector3.right; break; //North East
+            case 5: WindDirectionVector = Vector3.forward + Vector3.left; break; //North West
+            case 6: WindDirectionVector = Vector3.back + Vector3.right; break; //South East
+            case 7: WindDirectionVector = Vector3.back + Vector3.left; break; //South West
+            default: break;
+        }
     }
 
     private void RayCheck()
@@ -109,6 +128,10 @@ public class Bullet_Controller : MonoBehaviour
         rb.AddForce(direction * multiplier, ForceMode.Force);
     }
 
+    private void WindAccount()
+    {
+        rb.AddForce(WindDirectionVector * (WindSpeed / WindSpeedDivider), ForceMode.Force);
+    }
 
     private void FixedUpdate()
     {
@@ -120,8 +143,9 @@ public class Bullet_Controller : MonoBehaviour
         }
 
         RayCheck();
-        if (CurrentHemisphere != null) { HemisphereAccount(); }
-        if(East != null) { CoriolisAccount(); }
+        HemisphereAccount(); 
+        CoriolisAccount();
+        WindAccount();
     }
 }
 

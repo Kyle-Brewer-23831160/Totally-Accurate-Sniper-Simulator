@@ -24,12 +24,13 @@ public class Sniper_Controller : MonoBehaviour
 
     [Header("Bullet Variables")]
     [SerializeField] private GameObject Bullet;
-    [Tooltip("North, 1 East, 2 South, 3 West")][SerializeField] private Transform[] Directions;
+    [Tooltip("0 North, 1 East, 2 South, 3 West")][SerializeField] private Transform[] Directions;
     [Tooltip("0 Northern, 1 Southern")][SerializeField] private Transform[] HemisphereDirections;
     private MapDataStore _mapDataStore;
 
     void Start()
     {
+        Current_Mag_Ammo = Max_Mag_Ammo;
         _Animator = GetComponent<Animator>();
         IdleTimer = IdleTimerStartValue;
         _mapDataStore = FindFirstObjectByType<MapDataStore>();

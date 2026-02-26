@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class MapDataStore : MonoBehaviour
 {
-    [SerializeField] private bool[] WindDir = new bool[4]; //0 north, 1 east, 2 south, 3 west
+    [SerializeField] private int WindDir; //0 north, 1 east, 2 south, 3 west, 4 northeast, 5 northwest, 6 southeast, 7 southwest
     [SerializeField] private int speed;
     [SerializeField] private bool[] Hemisphere = new bool[2]; //0 Northern, 1 Southern
 
@@ -14,20 +14,12 @@ public class MapDataStore : MonoBehaviour
 
     public int DirectionGetter()
     {
-        for (int i = 0; i < WindDir.Length; i++)
-        {
-            if(WindDir[i] == true) { return i; }
-        }
-        return 0;
+        return WindDir;
     }
 
-    public void DirectionSetter(int TrueBool)
+    public void DirectionSetter(int Direction)
     {
-        for (int i = 0; i < WindDir.Length; i++)
-        {
-            if (i == TrueBool) { WindDir[i] = true; }
-            else { WindDir[i] = false; }
-        }
+        WindDir = Direction;
     }
 
     public int WindSpeedGetter()
