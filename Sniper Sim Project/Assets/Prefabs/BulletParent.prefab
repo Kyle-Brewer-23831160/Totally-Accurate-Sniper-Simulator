@@ -50,17 +50,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 58.12
   Life_Time: 5
-  OldPos: {x: 0, y: 0, z: 0}
-  New: {x: 0, y: 0, z: 0}
   ForcePosition: {fileID: 756483789680168125}
-  CoriolisStrength: 50
-  CoriolisDir: {fileID: 0}
+  HemisphereicalStrength: 0.2
   WindSpeed: 0
   WindDir: {fileID: 0}
+  CoriolisStrength: 0.03
+  StrengthMultiplier: 0
   Marker: {fileID: 5741741702715578787, guid: 2b6e639b26587ae4584924812083e3aa, type: 3}
-  East: {fileID: 0}
-  West: {fileID: 0}
-  BaseStrength: 1
 --- !u!54 &3079366150621042946
 Rigidbody:
   m_ObjectHideFlags: 0

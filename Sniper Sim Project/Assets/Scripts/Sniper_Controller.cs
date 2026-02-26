@@ -1,34 +1,33 @@
 using System.Collections;
-using Unity.Cinemachine;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
 public class Sniper_Controller : MonoBehaviour
 {
-    [Header("Sniper Variables")]
-    [SerializeField] private int Mag_Ammo;
+    [Header("Static Variables")]
     [SerializeField] private GameObject ShotPoint;
-    [SerializeField] private GameObject SniperBody;
     [SerializeField] private float Speed;
-    [SerializeField] private GameObject ScopeOverlay;
-    private bool Shell_In_Chamber = true;
-    private Animator _Animator;
     [SerializeField] private GameObject cam;
+    [SerializeField] private int Max_Mag_Ammo;
+
+    [Header("Animation Variables")]
     private float IdleTimer;
     [SerializeField] private float IdleTimerStartValue;
+    private Animator _Animator;
+
+    [Header("State Variables")]
+    private int Current_Mag_Ammo;
+    private bool Shell_In_Chamber = true;
     private bool reloading;
 
-    //Audio 
+    [Header("Sniper Audio")]
     [SerializeField] private GameObject[] SniperAudioSources;
 
     [Header("Bullet Variables")]
     [SerializeField] private GameObject Bullet;
-    [SerializeField] private Transform[] Directions; //0 North, 1 East, 2 South, 3 West;
-    [SerializeField] private Transform[] HemisphereDirections; //0 Northern, 1 Southern
+    [Tooltip("North, 1 East, 2 South, 3 West")][SerializeField] private Transform[] Directions;
+    [Tooltip("0 Northern, 1 Southern")][SerializeField] private Transform[] HemisphereDirections;
     private MapDataStore _mapDataStore;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _Animator = GetComponent<Animator>();
@@ -36,7 +35,6 @@ public class Sniper_Controller : MonoBehaviour
         _mapDataStore = FindFirstObjectByType<MapDataStore>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!reloading)
@@ -50,11 +48,11 @@ public class Sniper_Controller : MonoBehaviour
 
     private void Fire()
     {
-        if (Input.GetMouseButtonDown(0) && Shell_In_Chamber && Mag_Ammo >= 1)
+        if (Input.GetMouseButtonDown(0) && Shell_In_Chamber && Current_Mag_Ammo >= 1)
         {
             if (_Animator.GetFloat("Blend") == 2 || _Animator.GetFloat("Blend") > 0.9f)
             {
-                Mag_Ammo -= 1;
+                Current_Mag_Ammo -= 1;
                 Shell_In_Chamber = false;
                 PlaySound(2);
                 _Animator.Play("Recoil");
@@ -66,15 +64,8 @@ public class Sniper_Controller : MonoBehaviour
     {
         GameObject bullet = Instantiate(Bullet, ShotPoint.transform.position, transform.rotation);
         Bullet_Controller BulletScript = bullet.GetComponent<Bullet_Controller>();
-        if (Directions[0] != null)
-        {
-            BulletScript.East = Directions[1];
-            BulletScript.West = Directions[3];
-            BulletScript.CoriolisDir = HemisphereDirections[_mapDataStore.GetHemisphereIndex()];
-            BulletScript.WindDir = Directions[_mapDataStore.DirectionGetter()];
-            BulletScript.WindSpeed = _mapDataStore.WindSpeedGetter();
-        }
-        BulletScript.Initialize(transform);
+        BulletScript.DirectionsSetter(Directions, HemisphereDirections, _mapDataStore);
+        BulletScript.Initialize(transform, _mapDataStore);
     }
 
     private void ScopeAnimController()
@@ -156,7 +147,7 @@ public class Sniper_Controller : MonoBehaviour
             yield return null;
         }
 
-        if (Mag_Ammo >= 1)
+        if (Current_Mag_Ammo >= 1)
         {
             _Animator.Play("Reload");
         }
@@ -179,7 +170,7 @@ public class Sniper_Controller : MonoBehaviour
     {
         reloading = false;
         Shell_In_Chamber = true;
-        Mag_Ammo = 5;
+        Current_Mag_Ammo = Max_Mag_Ammo;
         _Animator.SetFloat("Blend", 1);
     }
 
