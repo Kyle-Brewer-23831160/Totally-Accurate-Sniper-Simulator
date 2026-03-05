@@ -99,10 +99,11 @@ public class Bullet_Controller : MonoBehaviour
         New = transform.position;
         Ray ray = new Ray(OldPos, (New - OldPos).normalized);
 
-        if (Physics.Raycast(ray, out hit, Vector3.Distance(OldPos, New)))
+        if (Physics.Raycast(ray, out hit, Vector3.Distance(OldPos, New) * 1.2f))
         {
             if (hit.transform.CompareTag("Target"))
             {
+                hit.transform.GetComponent<Animator>().Play("Dying");
                 Destroy(gameObject);
             }
             GameObject mark = Instantiate(Marker, hit.point, transform.rotation) as GameObject;
