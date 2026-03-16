@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fc457fba1aa08044b9b7fb99f066984, type: 3}
   m_Name: Target2
   m_EditorClassIdentifier: 
+  TargetIndex: 1
   Position: At the base of the outpost
   action: walking around
