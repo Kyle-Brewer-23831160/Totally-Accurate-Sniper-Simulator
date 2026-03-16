@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Splines;
 
 public class Bullet_Controller : MonoBehaviour
 {
@@ -104,9 +105,13 @@ public class Bullet_Controller : MonoBehaviour
             if (hit.transform.CompareTag("Target"))
             {
                 hit.transform.GetComponent<Animator>().Play("Dying");
+                if(hit.transform.GetComponent<SplineAnimate>()) { hit.transform.GetComponent<SplineAnimate>().Pause(); }
+                RandomizeTarget TargetData = FindFirstObjectByType<RandomizeTarget>();
+                if (hit.transform.GetComponent<TargetDataContainer>().targetData == TargetData.GetTarget()) { print("hit correct target"); }
+                else { print("hit wrong target"); }
                 Destroy(gameObject);
             }
-            GameObject mark = Instantiate(Marker, hit.point, transform.rotation) as GameObject;
+            GameObject mark = Instantiate(Marker, hit.point, transform.rotation);
             Destroy(gameObject);
         }
     }
@@ -138,10 +143,7 @@ public class Bullet_Controller : MonoBehaviour
     {
         //Life Timer
         Life_Time -= Time.deltaTime;
-        if (Life_Time < 0)
-        {
-            Destroy(gameObject);
-        }
+        if (Life_Time < 0) { Destroy(gameObject); }
 
         RayCheck();
         HemisphereAccount(); 

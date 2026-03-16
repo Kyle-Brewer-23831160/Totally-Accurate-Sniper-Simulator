@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class Sniper_Controller : MonoBehaviour
@@ -28,6 +29,11 @@ public class Sniper_Controller : MonoBehaviour
     [Tooltip("0 Northern, 1 Southern")][SerializeField] private Transform[] HemisphereDirections;
     private MapDataStore _mapDataStore;
 
+    [Header("Scope Variables")]
+    private RaycastHit hit;
+    [SerializeField] private Transform ScopePoint;
+    [SerializeField] private TextMeshProUGUI DistanceText;
+
     void Start()
     {
         Current_Mag_Ammo = Max_Mag_Ammo;
@@ -44,6 +50,7 @@ public class Sniper_Controller : MonoBehaviour
             ScopeAnimController();
             TryIdle();
             StartReload();
+            ScopeDistanceGetter();
         }
     }
 
@@ -178,5 +185,14 @@ public class Sniper_Controller : MonoBehaviour
     private void PlaySound(int index)
     {
         SniperAudioSources[index].GetComponent<AudioSource>().Play();
+    }
+
+    private void ScopeDistanceGetter()
+    {
+        Ray ray = new Ray(ScopePoint.position, ScopePoint.transform.forward);
+        if (Physics.Raycast(ray, out hit, 100f))
+        {
+            DistanceText.text = hit.distance.ToString() + "M";
+        }
     }
 }
