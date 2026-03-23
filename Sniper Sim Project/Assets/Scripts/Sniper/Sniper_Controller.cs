@@ -189,8 +189,8 @@ public class Sniper_Controller : MonoBehaviour
 
     private void ScopeDistanceGetter()
     {
-        Ray ray = new Ray(ScopePoint.position, ScopePoint.transform.forward);
-        if (Physics.Raycast(ray, out hit, 100f))
+        Ray ray = new Ray(ScopePoint.position, ScopePoint.transform.up);
+        if (Physics.Raycast(ray, out hit, 1200f))
         {
             DistanceText.text = hit.distance.ToString() + "M";
         }
