@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Mountain_Scene.unity
     guid: c88b5ef1e37c7e5419f46aa9967dd97c
+  - enabled: 1
+    path: Assets/Scenes/GrassyPlains.unity
+    guid: 65a09570d88e99e478e0856ff3e1d4ce
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

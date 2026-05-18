@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -107,7 +108,7 @@ public class Bullet_Controller : MonoBehaviour
                 hit.transform.GetComponent<Animator>().Play("Dying");
                 if(hit.transform.GetComponent<SplineAnimate>()) { hit.transform.GetComponent<SplineAnimate>().Pause(); }
                 RandomizeTarget TargetData = FindFirstObjectByType<RandomizeTarget>();
-                if (hit.transform.GetComponent<TargetDataContainer>().targetData == TargetData.GetTarget()) { print("hit correct target"); }
+                if (hit.transform.GetComponent<TargetDataContainer>().targetData == TargetData.GetTarget()) { GameObject.FindWithTag("TargetInfoBox").GetComponent<TextMeshProUGUI>().text = "  Target Eliminated \n \n  Press ESC to return to\n  main menu \n"; }
                 else { print("hit wrong target"); }
                 Destroy(gameObject);
             }

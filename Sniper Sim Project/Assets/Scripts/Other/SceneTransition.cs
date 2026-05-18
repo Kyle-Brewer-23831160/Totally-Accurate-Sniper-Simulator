@@ -15,6 +15,8 @@ public class SceneTransition : MonoBehaviour
 
     public UnityEvent OnTransitionHalfComplete;
 
+    public int ChosenMapIndex;
+
     private void Start()
     {
         print("starting");
@@ -91,7 +93,29 @@ public class SceneTransition : MonoBehaviour
     }
 
     public void ChangeSceneIndex(int index)
-    { 
-        NextSceneIndex = index;
+    {
+        if (ChosenMapIndex != 0)
+        {
+            NextSceneIndex = ChosenMapIndex;
+        }
+        else
+        {
+            NextSceneIndex = index;
+        }
+    }
+    public void StartSetChosenNoDelay(int index)
+    {
+        ChosenMapIndex = index;
+    }
+
+    public void StartSetChosen(int index)
+    {
+        StartCoroutine(SetChosen(index));
+    }
+
+    public IEnumerator SetChosen(int index)
+    {
+        yield return OnTransitionHalfComplete;
+        ChosenMapIndex = index;
     }
 }

@@ -1,5 +1,7 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Movement_Controller : MonoBehaviour
 {
@@ -61,6 +63,12 @@ public class Movement_Controller : MonoBehaviour
     {
         Horiz_Input = Input.GetAxisRaw("Horizontal");
         Vert_Input = Input.GetAxisRaw("Vertical");
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene(0);
+            Cursor.lockState = CursorLockMode.None;
+        }
     }
 
     private void Movement()
@@ -86,7 +94,6 @@ public class Movement_Controller : MonoBehaviour
     {
         if (Input.GetKeyDown(Prone_Key))
         {
-            print("oog");
             proning = !proning;
             NewHeight = capsuleCollider.height;
         }

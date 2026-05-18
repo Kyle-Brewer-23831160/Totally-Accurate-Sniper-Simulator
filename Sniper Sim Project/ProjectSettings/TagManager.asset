@@ -8,6 +8,7 @@ TagManager:
   - Ground
   - ParentCanvas
   - Marker
+  - TargetInfoBox
   layers:
   - Default
   - TransparentFX
