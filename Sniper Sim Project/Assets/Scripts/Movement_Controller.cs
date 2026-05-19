@@ -50,12 +50,12 @@ public class Movement_Controller : MonoBehaviour
     private void Update()
     {
         Inputs();
+        Movement();
         ProneStateCheck();
     }
 
     private void FixedUpdate()
     {
-        Movement();
         CustomGravity();
     }
 
@@ -75,7 +75,7 @@ public class Movement_Controller : MonoBehaviour
     {
         if (!falling)
         {
-            Dir = Orientation.forward * Vert_Input + Orientation.right * Horiz_Input; //calculates what direction to move the player based on orientation and key inputs
+            Dir = ((Orientation.forward * Vert_Input + Orientation.right * Horiz_Input) * Time.deltaTime); //calculates what direction to move the player based on orientation and key inputs
         }
 
         rb.linearVelocity = AdjustForSlopes();
@@ -154,7 +154,7 @@ public class Movement_Controller : MonoBehaviour
 
     private void CustomGravity() 
     {
-      rb.AddForce(Vector3.down * (GravityValue * 1000) * Time.fixedDeltaTime, ForceMode.Acceleration);
+      rb.AddForce(Vector3.down * (GravityValue * 1000) * Time.deltaTime, ForceMode.Acceleration);
     }
 }
 

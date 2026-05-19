@@ -1,7 +1,10 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SceneTransition : MonoBehaviour
 {
@@ -19,7 +22,7 @@ public class SceneTransition : MonoBehaviour
 
     private void Start()
     {
-        print("starting");
+        Cursor.lockState = CursorLockMode.None;
         SceneManager.activeSceneChanged += SceneAwake;
         StartCoroutine(TransitionIn());
         DontDestroyOnLoad(gameObject); ;
@@ -47,6 +50,16 @@ public class SceneTransition : MonoBehaviour
 
     public void StartTransitionOut()
     {
+        int i = 0;
+        Button[] buttons;
+        buttons = FindObjectsByType<Button>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+        while (i < buttons.Length)
+        {
+            buttons[i].interactable = false;
+            i++;
+        }
+
         if (Transitioning) { return; }
         StartCoroutine(TransitionOut());
     }
@@ -62,6 +75,17 @@ public class SceneTransition : MonoBehaviour
             yield return null;
         }
         Transitioning = false;
+
+        
+        int i = 0;
+        Button[] buttons;
+        buttons = FindObjectsByType<Button>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+        while (i < buttons.Length)
+        {
+            buttons[i].interactable = true;
+            i++;
+        }
     }
 
     public IEnumerator TransitionOut()

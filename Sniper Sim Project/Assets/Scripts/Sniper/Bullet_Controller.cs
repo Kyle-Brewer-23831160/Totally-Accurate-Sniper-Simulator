@@ -35,6 +35,8 @@ public class Bullet_Controller : MonoBehaviour
     [Header("Debugging")]
     public GameObject Marker;
 
+    [SerializeField] private int targetFPS = 20; // Set this to 10, 20, 30, etc.
+
     public void Initialize(Transform StartPos, MapDataStore _MapDataStore)
     {
         if (GameObject.FindGameObjectWithTag("Marker"))
@@ -109,7 +111,7 @@ public class Bullet_Controller : MonoBehaviour
                 if(hit.transform.GetComponent<SplineAnimate>()) { hit.transform.GetComponent<SplineAnimate>().Pause(); }
                 RandomizeTarget TargetData = FindFirstObjectByType<RandomizeTarget>();
                 if (hit.transform.GetComponent<TargetDataContainer>().targetData == TargetData.GetTarget()) { GameObject.FindWithTag("TargetInfoBox").GetComponent<TextMeshProUGUI>().text = "  Target Eliminated \n \n  Press ESC to return to\n  main menu \n"; }
-                else { print("hit wrong target"); }
+                else { GameObject.Find("PlayerParent").transform.GetChild(0).transform.GetChild(2).gameObject.SetActive(true); }
                 Destroy(gameObject);
             }
             GameObject mark = Instantiate(Marker, hit.point, transform.rotation);
