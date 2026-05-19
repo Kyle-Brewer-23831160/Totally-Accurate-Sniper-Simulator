@@ -40,13 +40,6 @@ public class Sniper_Controller : MonoBehaviour
         _Animator = GetComponent<Animator>();
         IdleTimer = IdleTimerStartValue;
         _mapDataStore = FindFirstObjectByType<MapDataStore>();
-
-            // 0 disables VSync. Without this, targetFrameRate is ignored.
-            QualitySettings.vSyncCount = 0;
-
-            // Force the Game view to match this specific FPS
-         Application.targetFrameRate = 30;
-        
     }
 
     void Update()
